@@ -7,6 +7,7 @@
 * Done
 
 # 🧬 How to upload Data:
-* In the upload_mark folder have the code to upload marks.
-* 
-* Give me a star
+* In the [upload_mark](https://github.com/hypride/MiniStudentPortal/tree/main/mark_upload) folder you can see and index file.
+* open that file and goto 87 line of it.
+* and add your firebase config.
+* Give me a star.
