@@ -4,10 +4,10 @@
 
 # :robot: Setup:
 * In 102 line change the firebase config
-* done
+* Done
 
 # 🧬 How to upload Data:
-* the data must be uploaded in this form:
+* The data must be uploaded in this json form to firebase realtime-database:
 ```
 {
     "students": {
