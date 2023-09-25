@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        form {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 85%;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 90%;
+        }
+
+        button{
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+
+        .results {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Intitute Name</h1>
+    </header>
+    <div class="container" style="margin-top: 30px; margin-bottom: 30px;">
+        <h1 style="text-align: center;">Student Results Lookup</h1>
+        <form id="resultForm">
+            <label for="studentClass">Select Your Class:</label>
+            <select id="studentClass">
+                <option value="class1">Class 1</option>
+                <option value="class2">Class 2</option>
+                <option value="class3">Class 3</option>
+                <option value="class4">Class 4</option>
+                <option value="class5">Class 5</option>
+                <option value="class6">Class 6</option>
+                <option value="class7">Class 7</option>
+                <option value="class8">Class 8</option>
+                <option value="class9">Class 9</option>
+                <option value="class10">Class 10</option>
+            </select>
+            <label for="studentID">Enter Your Student ID:</label>
+            <input type="text" id="studentID" placeholder="Enter Student ID">
+            <button type="submit">Get Results</button>
+        </form>
+        <div class="results" id="resultsTable" style="margin-top: 0px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px; padding-top: 10px;">
+            <!-- Results will be displayed here dynamically -->
+        </div>
+        <button id="convertButton" style="display: none; margin: auto;">Download Image</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAacscWNcavaCx_1DIaMqhkZyD-AP0nPNk",
+  authDomain: "miniportal-68b06.firebaseapp.com",
+  databaseURL: "https://miniportal-68b06-default-rtdb.firebaseio.com",
+  projectId: "miniportal-68b06",
+  storageBucket: "miniportal-68b06.appspot.com",
+  messagingSenderId: "434218533521",
+  appId: "1:434218533521:web:7acfa5798ae08698573530",
+  measurementId: "G-SXE3CNBYGQ"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        const resultForm = document.getElementById('resultForm');
+        const resultsTable = document.getElementById('resultsTable');
+
+        resultForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const studentClass = document.getElementById('studentClass').value;
+            const studentID = document.getElementById('studentID').value;
+
+            // Retrieve the student's results from Firebase
+            const studentsRef = firebase.database().ref('students');
+            studentsRef.child(studentID).once('value', (snapshot) => {
+                const studentData = snapshot.val();
+
+                if (studentData && studentData.class === studentClass) {
+                    const { name, subjects } = studentData;
+
+                    // Display the student's results including their name
+                    resultsTable.innerHTML = `
+                        <h2>Results for Student ID: ${studentID}</h2>
+                        <h3>Name: ${name}</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Math</td>
+                                    <td>${subjects.math}</td>
+                                </tr>
+                                <tr>
+                                    <td>Science</td>
+                                    <td>${subjects.science}</td>
+                                </tr>
+                                <tr>
+                                    <td>English</td>
+                                    <td>${subjects.english}</td>
+                                </tr>
+                                <tr>
+                                    <td>History</td>
+                                    <td>${subjects.history}</td>
+                                </tr>
+                                <tr>
+                                    <td>Art</td>
+                                    <td>${subjects.art}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    document.getElementById("convertButton").style.display = "block";
+                } else {
+                    // Display an error message if the student ID is not found or doesn't match the selected class
+                    resultsTable.innerHTML = '<p>Student ID not found or does not match the selected class. Please check your ID and class selection.</p>';
+                }
+            });
+        });
+    </script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const divToConvert = document.getElementById('resultsTable');
+    const convertButton = document.getElementById('convertButton');
+
+    convertButton.addEventListener('click', function () {
+        // Use html2canvas to convert the div to an image
+        html2canvas(divToConvert).then(function(canvas) {
+            // Convert the canvas to a data URL representing the image
+            const dataURL = canvas.toDataURL('image/png');
+
+            // Create a download link
+            const downloadLink = document.createElement('a');
+            downloadLink.href = dataURL;
+            downloadLink.download = 'div_image.png'; // Specify the desired filename
+
+            // Simulate a click on the link to trigger the download
+            downloadLink.click();
+        });
+    });
+});
+
+
+
+    </script>
+</body>
+</html>
