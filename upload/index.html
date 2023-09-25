@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Mark Management</title>
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        .log_container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 40px;
+            padding-bottom: 30px;
+        }
+        .log_container input{
+            margin: auto;
+            width: 50%;
+        }
+        .log_container button{
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 80%;
+            color: #fff;
+            background-color:#3498db;
+            margin-top: 8px;
+        }
+        .input_div{
+   border: 2px solid rgb(255, 255, 255);
+   text-align: center;   /* Center Align */
+   height: 100px;
+   background: rgb(255, 255, 255);
+   padding: 20px;
+}
+
+        h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        form {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"],input[type="password"],input[type="email"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 80%;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 85%;
+        }
+
+        button[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .edit-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .edit-button:hover {
+            background-color: #2980b9;
+        }
+        .delete-button {
+            background-color: #c4262e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .delete-button:hover {
+            background-color: #c94046;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-radius: 5px;
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            float: right;
+            cursor: pointer;
+        }
+        
+       
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Portal - Mark Management</h1>
+    </header>
+    <div class="log_container" id="log_container">
+        <h1 style="text-align: center;">Teachers Portal - Login</h1>
+        <div class="input_div">
+        <input type="email" placeholder="Username or email address" id="username" name="username" style="margin-bottom: 5px;">
+        <input placeholder="Password" id="password" name="password" type="password">
+        <button onclick="mylogFunction()" id="login-button">Login</button>
+    </div> 
+    </div>
+    <div class="container" id="container" style="display: none;">
+        <h2>Mark Management</h2>
+        <form id="studentForm">
+            <label for="studentClass">Select Student Class:</label>
+            <select id="studentClass">
+                <option value="class1">Class 1</option>
+                <option value="class2">Class 2</option>
+                <option value="class3">Class 3</option>
+                <option value="class4">Class 4</option>
+                <option value="class5">Class 5</option>
+                <option value="class6">Class 6</option>
+                <option value="class7">Class 7</option>
+                <option value="class8">Class 8</option>
+                <option value="class9">Class 9</option>
+                <option value="class10">Class 10</option>
+            </select>
+            <label for="studentID">Student ID:</label>
+            <input type="text" id="studentID" placeholder="Enter Student ID" required>
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" placeholder="Enter Student Name" required>
+            <label for="mathScore">Math Score:</label>
+            <input type="number" id="mathScore" placeholder="Enter Math Score" required>
+            <label for="scienceScore">Science Score:</label>
+            <input type="number" id="scienceScore" placeholder="Enter Science Score" required>
+            <label for="englishScore">English Score:</label>
+            <input type="number" id="englishScore" placeholder="Enter English Score" required>
+            <label for="historyScore">History Score:</label>
+            <input type="number" id="historyScore" placeholder="Enter History Score" required>
+            <label for="artScore">Art Score:</label>
+            <input type="number" id="artScore" placeholder="Enter Art Score" required>
+            <button type="submit">Upload Marks</button>
+        </form>
+        <div id="studentList">
+            <h2>Student List</h2>
+            <div style="overflow-y: scroll;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Student list will be displayed here dynamically -->
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal for Mark Editing -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Edit Marks</h2>
+            <form id="editForm">
+                <label for="editMathScore">Math Score:</label>
+                <input type="number" id="editMathScore" required>
+                <label for="editScienceScore">Science Score:</label>
+                <input type="number" id="editScienceScore" required>
+                <label for="editEnglishScore">English Score:</label>
+                <input type="number" id="editEnglishScore" required>
+                <label for="editHistoryScore">History Score:</label>
+                <input type="number" id="editHistoryScore" required>
+                <label for="editArtScore">Art Score:</label>
+                <input type="number" id="editArtScore" required>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAacscWNcavaCx_1DIaMqhkZyD-AP0nPNk",
+  authDomain: "miniportal-68b06.firebaseapp.com",
+  databaseURL: "https://miniportal-68b06-default-rtdb.firebaseio.com",
+  projectId: "miniportal-68b06",
+  storageBucket: "miniportal-68b06.appspot.com",
+  messagingSenderId: "434218533521",
+  appId: "1:434218533521:web:7acfa5798ae08698573530",
+  measurementId: "G-SXE3CNBYGQ"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        const studentForm = document.getElementById('studentForm');
+        const studentList = document.getElementById('studentList');
+        const editModal = document.getElementById('editModal');
+        const editForm = document.getElementById('editForm');
+        const closeModal = document.getElementById('closeModal');
+
+        // Function to display students based on class
+        function displayStudents(classFilter) {
+            const studentsRef = firebase.database().ref('students');
+            studentsRef.once('value', (snapshot) => {
+                const studentTableBody = document.querySelector('#studentList tbody');
+                studentTableBody.innerHTML = '';
+
+                snapshot.forEach((childSnapshot) => {
+                    const studentData = childSnapshot.val();
+                    if (classFilter === 'all' || studentData.class === classFilter) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${childSnapshot.key}</td>
+                            <td>${studentData.name}</td>
+                            <td>${studentData.class}</td>
+                            <td>
+                                <button class="edit-button" data-student-id="${childSnapshot.key}">Edit Marks</button>
+                                <button class="delete-button" data-student-id="${childSnapshot.key}">Delete</button>
+                            </td>
+                        `;
+                        studentTableBody.appendChild(row);
+
+                        // Add event listener for edit button click
+                        const editButton = row.querySelector('.edit-button');
+                        editButton.addEventListener('click', (e) => {
+                            const studentID = e.target.getAttribute('data-student-id');
+                            openEditModal(studentID);
+                        });
+
+                        // Add event listener for delete button click
+                        const deleteButton = row.querySelector('.delete-button');
+                        deleteButton.addEventListener('click', (e) => {
+                            const studentID = e.target.getAttribute('data-student-id');
+                            deleteStudent(studentID);
+                        });
+                    }
+                });
+            });
+        }
+
+        // Function to open the edit modal
+        function openEditModal(studentID) {
+            const studentRef = firebase.database().ref('students/' + studentID);
+            studentRef.once('value', (snapshot) => {
+                const studentData = snapshot.val();
+                if (studentData) {
+                    // Populate edit form fields
+                    editForm.elements['editMathScore'].value = studentData.subjects.math;
+                    editForm.elements['editScienceScore'].value = studentData.subjects.science;
+                    editForm.elements['editEnglishScore'].value = studentData.subjects.english;
+                    editForm.elements['editHistoryScore'].value = studentData.subjects.history;
+                    editForm.elements['editArtScore'].value = studentData.subjects.art;
+
+                    // Show the modal
+                    editModal.style.display = 'block';
+
+                    // Add event listener for modal close button
+                    closeModal.addEventListener('click', () => {
+                        editModal.style.display = 'none';
+                    });
+
+                    // Add event listener for form submission
+                    editForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+
+                        // Update the student's marks in the database
+                        const updatedMathScore = parseFloat(editForm.elements['editMathScore'].value);
+                        const updatedScienceScore = parseFloat(editForm.elements['editScienceScore'].value);
+                        const updatedEnglishScore = parseFloat(editForm.elements['editEnglishScore'].value);
+                        const updatedHistoryScore = parseFloat(editForm.elements['editHistoryScore'].value);
+                        const updatedArtScore = parseFloat(editForm.elements['editArtScore'].value);
+
+                        studentRef.child('subjects').update({
+                            math: updatedMathScore,
+                            science: updatedScienceScore,
+                            english: updatedEnglishScore,
+                            history: updatedHistoryScore,
+                            art: updatedArtScore
+                        }, (error) => {
+                            if (error) {
+                                console.error("Error updating marks: " + error);
+                            } else {
+                                console.log("Marks updated successfully.");
+                                editModal.style.display = 'none';
+                                // Refresh the student list
+                                displayStudents(studentData.class);
+                            }
+                        });
+                    });
+                } else {
+                    console.error("Student data not found.");
+                }
+            });
+        }
+
+        // Function to delete a student
+        function deleteStudent(studentID) {
+            const studentRef = firebase.database().ref('students/' + studentID);
+            studentRef.remove()
+                .then(() => {
+                    console.log("Student deleted successfully.");
+                    displayStudents(studentForm.elements['studentClass'].value);
+                })
+                .catch((error) => {
+                    console.error("Error deleting student: " + error);
+                });
+        }
+
+        // Initial display of students (all classes)
+        displayStudents();
+
+        // Listen for changes in the class selection
+        studentForm.elements['studentClass'].addEventListener('change', (e) => {
+            const selectedClass = e.target.value;
+            displayStudents(selectedClass); // Show students of the selected class
+        });
+
+        // Listen for form submission and save student data
+        studentForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const studentClass = document.getElementById('studentClass').value;
+            const studentID = document.getElementById('studentID').value;
+            const studentName = document.getElementById('studentName').value;
+            const mathScore = parseFloat(document.getElementById('mathScore').value);
+            const scienceScore = parseFloat(document.getElementById('scienceScore').value);
+            const englishScore = parseFloat(document.getElementById('englishScore').value);
+            const historyScore = parseFloat(document.getElementById('historyScore').value);
+            const artScore = parseFloat(document.getElementById('artScore').value);
+
+            const studentData = {
+                name: studentName,
+                class: studentClass,
+                subjects: {
+                    math: mathScore,
+                    science: scienceScore,
+                    english: englishScore,
+                    history: historyScore,
+                    art: artScore
+                }
+            };
+
+            const database = firebase.database();
+            const studentsRef = database.ref('students');
+
+            studentsRef.child(studentID).set(studentData, function (error) {
+                if (error) {
+                    console.error("Data could not be saved." + error);
+                } else {
+                    console.log("Data saved successfully.");
+                    // Clear the form fields
+                    studentForm.reset();
+                    // Refresh the student list
+                    displayStudents(studentClass); // Show students of the selected class
+                }
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
