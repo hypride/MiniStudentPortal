@@ -1,6 +1,6 @@
 # MiniStudentPortal v2.1
 
-* Developed By Nazim Cp
+* Developed By Instagram 
 
 # :robot: Setup:
 * In 102 line change the firebase config
